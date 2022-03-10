@@ -5,20 +5,50 @@ const MovieSchema = new Schema({
         type: String,
         required: true
     }, 
-    // movieCertificate: {
-    //     type: String, 
-    //     enum:['U','U/A','A','S'] 
+    certificate: {
+        type: String, 
+        enum:['U','U/A','A','S'] 
+    },
+    language: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    duration: {
+        type: String,
+        required: true
+    },
+    director: {
+        type: String,
+        required: true
+    },
+    casting: {
+        type: String,
+        required: true
+    }, 
+    releaseDate: {
+        type: String,
+        required: true
+    },
+    // premier: {
+    //     type: String,
+    //     required: true
     // },
-    // movieLanguage: String,
-    // movieType: String,
-    // duration: String,
-    // director: String,
-    // casting: String, 
-    // releaseDate: String,
-    // premier: String,
-    // trailerURL :String,
-    // description: String,
-    // photoURL: String
+    // trailerURL :{
+    //     type: String,
+    //     required: true
+    // },
+    // description: {
+    //     type: String,
+    //     required: true
+    // },
+    // photoURL: {
+    //     type: String,
+    //     required: true
+    // }
 }); 
 
 module.exports = mongoose.model('Movies', MovieSchema); 

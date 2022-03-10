@@ -10,6 +10,8 @@ const path = require('path');
 const app = express();
 const Movie = require('./models/movie'); 
 const bodyParser = require('body-parser');
+const catchAsync = require('./utils/catchAsync')
+const ExpressError = require('./utils/ExpressError')
 
 mongoose.connect(process.env.db_connection, {});
 
@@ -38,8 +40,9 @@ app.use(bodyParser.json())
 
 // app.use(methodOverride('_method'));
 
-app.get('/', (req,res)=>{
-    res.render('home');
+app.get('/', async(req,res)=>{
+    const movies = await Movie.find({});
+    res.render('home',{movies});
 })
 
 app.get('/addmovie',(req,res)=>{
@@ -47,10 +50,14 @@ app.get('/addmovie',(req,res)=>{
 })
 
 app.post('/',async(req,res)=>{  
-    console.log(req.body);
-    // const movie = new Movie(req.body.movie);    
-    // await movie.save();
-    // console.log(movie);    
+    try{
+        const movie = new Movie(req.body.movie);    
+    await movie.save();
+    console.log(movie);    
+    res.redirect('/');
+    } catch(e){
+        console.log(e); 
+    }
     
 })
 
