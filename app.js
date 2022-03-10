@@ -1,3 +1,4 @@
+
 if(process.env.NODE_ENV !== 'production'){
     require('dotenv/config');
 }
@@ -7,6 +8,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const app = express();
+const Movie = require('./models/movie'); 
+const bodyParser = require('body-parser');
 
 mongoose.connect(process.env.db_connection, {});
 
@@ -19,10 +22,21 @@ db.once("open", () => {
 app.use(express.json());
 app.use(cors());
 
+app.use(express.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+// parse application/json
+app.use(bodyParser.json())
+
+// app.use(methodOverride('_method'));
 
 app.get('/', (req,res)=>{
     res.render('home');
@@ -30,6 +44,14 @@ app.get('/', (req,res)=>{
 
 app.get('/addmovie',(req,res)=>{
     res.render('movieform')
+})
+
+app.post('/',async(req,res)=>{  
+    console.log(req.body);
+    // const movie = new Movie(req.body.movie);    
+    // await movie.save();
+    // console.log(movie);    
+    
 })
 
 
