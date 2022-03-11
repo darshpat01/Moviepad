@@ -10,6 +10,7 @@ const path = require('path');
 const app = express();
 const Movie = require('./models/movie'); 
 const bodyParser = require('body-parser');
+const ejsMate = require('ejs-mate'); 
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 
@@ -25,7 +26,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
-
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
