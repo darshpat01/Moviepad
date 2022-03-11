@@ -13,10 +13,17 @@ const Movie = require('./models/movie');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const ejsMate = require('ejs-mate'); 
+const LocalStrategy = require('passport-local');
 const MongoStore = require('connect-mongo');
 const catchAsync = require('./utils/catchAsync')
-const ExpressError = require('./utils/ExpressError')
-const User = require('./models/user')
+// const ExpressError = require('./utils/ExpressError')
+const User = require('./models/user');
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  
+  }));
 
 
 mongoose.connect(process.env.db_connection, {});
@@ -45,17 +52,16 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-
-
-app.use(passport.initialize());
-app.use(passport.session()); 
 // passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser()); 
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser()); 
 const secret = process.env.secret || 'randomsecret';
 const store = new MongoStore({
-    mongoUrl: process.env.DATABASE_KEY, secret, touchAfter: 24 * 3600
+    mongoUrl: process.env.db_connection, secret, touchAfter: 24 * 3600
+  })
+  store.on("error", function (e) {
+    console.log("Session store error!", e);
   })
 const sessionConfig = {
     store,
@@ -70,11 +76,17 @@ const sessionConfig = {
       maxAge: 1000 * 60 * 60 * 24 * 7
     }
   }
+  app.use(session(sessionConfig))
+  app.use(passport.initialize());
+app.use(passport.session()); 
 
-  app.use(session(sessionConfig));
   passport.use(new LocalStrategy({
     usernameField: 'email'
   }, User.authenticate()));
+
+  store.on("error", function(e){
+    console.log("Session store error!", e);
+})
 
 app.get('/', async(req,res)=>{
     const movies = await Movie.find({});
@@ -87,6 +99,10 @@ app.get('/addmovie',(req,res)=>{
 
 app.get('/login',(req,res)=>{
     res.render('login')
+})
+
+app.get('/register',(req,res)=>{
+    res.render('register')
 })
 
 
