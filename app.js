@@ -1,30 +1,29 @@
-
-if(process.env.NODE_ENV !== 'production'){
-    require('dotenv/config');
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv/config");
 }
 
-const express = require('express'); 
-const mongoose = require('mongoose'); 
-const cors = require('cors');
-const path = require('path');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const path = require("path");
 const app = express();
-const session = require('express-session');
-const Movie = require('./models/movie'); 
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const ejsMate = require('ejs-mate'); 
-const LocalStrategy = require('passport-local');
-const MongoStore = require('connect-mongo');
-const catchAsync = require('./utils/catchAsync')
+const session = require("express-session");
+const Movie = require("./models/movie");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const ejsMate = require("ejs-mate");
+const LocalStrategy = require("passport-local");
+const MongoStore = require("connect-mongo");
+const catchAsync = require("./utils/catchAsync");
 // const ExpressError = require('./utils/ExpressError')
-const User = require('./models/user');
+const User = require("./models/user");
 
-app.use(cors({
+app.use(
+  cors({
     origin: "http://localhost:3000",
-    credentials: true
-  
-  }));
-
+    credentials: true,
+  })
+);
 
 mongoose.connect(process.env.db_connection, {});
 
@@ -32,96 +31,125 @@ const db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
-    console.log("Database connected");
+  console.log("Database connected");
 });
 
 app.use(express.json());
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
-app.engine('ejs', ejsMate)
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
-    extended: true
-  }));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // passport.use(new LocalStrategy(User.authenticate()));
 
 // passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser()); 
-const secret = process.env.secret || 'randomsecret';
+// passport.deserializeUser(User.deserializeUser());
+const secret = process.env.secret || "randomsecret";
 const store = new MongoStore({
-    mongoUrl: process.env.db_connection, secret, touchAfter: 24 * 3600
-  })
-  store.on("error", function (e) {
-    console.log("Session store error!", e);
-  })
+  mongoUrl: process.env.db_connection,
+  secret,
+  touchAfter: 24 * 3600,
+});
+store.on("error", function (e) {
+  console.log("Session store error!", e);
+});
 const sessionConfig = {
-    store,
-    name: 'session',
-    secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      httpOnly: true,
-      /*secure:'true',*/
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      maxAge: 1000 * 60 * 60 * 24 * 7
+  store,
+  name: "session",
+  secret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    /*secure:'true',*/
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+app.use(session(sessionConfig));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: "email",
+    },
+    User.authenticate()
+  )
+);
+
+store.on("error", function (e) {
+  console.log("Session store error!", e);
+});
+
+app.get("/", async (req, res) => {
+  const movies = await Movie.find({});
+  res.render("home", { movies });
+});
+
+app.get("/addmovie", (req, res) => {
+  res.render("movieform");
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+app.get("/booknow/:id", async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
+      console.log("Movie doesnt exist");
+      return res.redirect("/");
     }
-  }
-  app.use(session(sessionConfig))
-  app.use(passport.initialize());
-app.use(passport.session()); 
-
-  passport.use(new LocalStrategy({
-    usernameField: 'email'
-  }, User.authenticate()));
-
-  store.on("error", function(e){
-    console.log("Session store error!", e);
-})
-
-app.get('/', async(req,res)=>{
     const movies = await Movie.find({});
-    res.render('home',{movies});
-})
+    console.log(movies);
+    const moviesrem = await movies.filter((movierem) => movierem.name != movie.name);
+    console.log(moviesrem);
+    res.render("booknow", { movie, movies: moviesrem });
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-app.get('/addmovie',(req,res)=>{
-    res.render('movieform')
-})
+app.get("/movie/:id", async (req, res) => {
+  const movie = await Movie.findById(req.params.id);
+  if (!movie) {
+    console.log("Movie doesnt exist");
+    return res.redirect("/");
+  }
+  res.render("movieinfo", { movie });
+});
 
-app.get('/login',(req,res)=>{
-    res.render('login')
-})
-
-app.get('/register',(req,res)=>{
-    res.render('register')
-})
-
-
-
-app.post('/',async(req,res)=>{  
-    try{
-        const movie = new Movie(req.body.movie);    
+app.post("/", async (req, res) => {
+  try {
+    const movie = new Movie(req.body.movie);
     await movie.save();
-    console.log(movie);    
-    res.redirect('/');
-    } catch(e){
-        console.log(e); 
-    }
-    
-})
+    console.log(movie);
+    res.redirect("/");
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-
-
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Serving on port ${port}`);
-})
+  console.log(`Serving on port ${port}`);
+});

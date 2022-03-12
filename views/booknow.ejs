@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+<div class="container">
+  <h3>Book Now</h3>
+  <hr>
+  <div class="mb-3">
+    <label for="certificate" class="form-label">Select Movie</label>
+    <select
+      id="name"
+      name="movie[name]"
+      class="form-select movie-input1"
+      aria-label="Default select example"
+    >
+      <option selected value="<%= movie.name %>"><%= movie.name %></option>
+<% for (moviename of movies) {%> 
+      <option value="<%= moviename.name %> "><%= moviename.name %></option>
+      <% } %> 
+    </select>
+  </div>
+  <form action="/booknow" method="post">
+    <label for="start">Select date:</label>
+    <input type="date" id="start" name="trip-start"
+           value="2018-07-22"
+           min="2018-01-01" max="2018-12-31">
+  <button class="btn btn-success">Book</button>
+</form>
+</div>
