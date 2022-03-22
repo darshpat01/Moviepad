@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv/config");
 }
-
+const { isLoggedIn } = require("./middleware");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -52,10 +52,6 @@ app.use(
 
 app.use(bodyParser.json());
 
-// passport.use(new LocalStrategy(User.authenticate()));
-
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 const secret = process.env.secret || "randomsecret";
 const store = new MongoStore({
   mongoUrl: process.env.db_connection,
@@ -82,6 +78,11 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 passport.use(
   new LocalStrategy(
     {
@@ -91,28 +92,66 @@ passport.use(
   )
 );
 
-store.on("error", function (e) {
-  console.log("Session store error!", e);
-});
-
+//homepage
 app.get("/", async (req, res) => {
   const movies = await Movie.find({});
   res.render("home", { movies });
 });
 
+app.post("/", async (req, res) => {
+  try {
+    const movie = new Movie(req.body.movie);
+    await movie.save();
+    console.log(movie);
+    res.redirect("/");
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// addmovie
 app.get("/addmovie", (req, res) => {
   res.render("movieform");
 });
 
+//login route
 app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.post("/login", async (req, res) => {
+  const redirectUrl = req.session.returnTo || "/";
+  console.log("successfully logged in");
+  console.log(redirectUrl);
+  delete req.session.returnTo;
+  res.redirect(redirectUrl);
+});
+
+// register route
 app.get("/register", (req, res) => {
   res.render("register");
 });
 
-app.get("/booknow/:id", async (req, res) => {
+app.post("/register", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { email, username, password } = req.body;
+    const user = new User({ email, username });
+    const registeredUser = await User.register(user, password);
+    req.login(registeredUser, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log("user created");
+      res.redirect("/");
+    });
+  } catch (e) {
+    console.log(e);
+    res.redirect("error");
+  }
+});
+
+app.get("/booknow/:id", isLoggedIn, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
     if (!movie) {
@@ -121,7 +160,9 @@ app.get("/booknow/:id", async (req, res) => {
     }
     const movies = await Movie.find({});
     console.log(movies);
-    const moviesrem = await movies.filter((movierem) => movierem.name != movie.name);
+    const moviesrem = await movies.filter(
+      (movierem) => movierem.name != movie.name
+    );
     console.log(moviesrem);
     res.render("booknow", { movie, movies: moviesrem });
   } catch (e) {
@@ -136,17 +177,6 @@ app.get("/movie/:id", async (req, res) => {
     return res.redirect("/");
   }
   res.render("movieinfo", { movie });
-});
-
-app.post("/", async (req, res) => {
-  try {
-    const movie = new Movie(req.body.movie);
-    await movie.save();
-    console.log(movie);
-    res.redirect("/");
-  } catch (e) {
-    console.log(e);
-  }
 });
 
 const port = process.env.PORT || 3000;
