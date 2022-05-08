@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv/config");
 }
-const { isLoggedIn } = require("./middleware");
+const { isLoggedIn, isMember, isAdmin } = require("./middleware");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -135,8 +135,8 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     console.log(req.body);
-    const { email, username, password } = req.body;
-    const user = new User({ email, username });
+    const { email, username, password, role } = req.body;
+    const user = new User({ email, username, role });
     const registeredUser = await User.register(user, password);
     req.login(registeredUser, (err) => {
       if (err) {
@@ -168,6 +168,12 @@ app.get("/booknow/:id", isLoggedIn, async (req, res) => {
   } catch (e) {
     console.log(e);
   }
+});
+
+//admin routes
+
+app.get("/admindashboard", isLoggedIn, isAdmin, async (req, res) => {
+  res.render("admin");
 });
 
 app.get("/movie/:id", async (req, res) => {

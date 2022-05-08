@@ -7,3 +7,23 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
   }
 };
+
+module.exports.isMember = (req, res, next) => {
+  if (req.user.role == "member") {
+    console.log("Member confirmed");
+    next();
+  } else {
+    console.log("wrong role");
+    return res.redirect("/login");
+  }
+};
+
+module.exports.isAdmin = (req, res, next) => {
+  if (req.user.role == "admin") {
+    console.log("Admin confirmed");
+    next();
+  } else {
+    console.log("wrong role");
+    return res.redirect("/login");
+  }
+};
