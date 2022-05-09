@@ -13,17 +13,22 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/">Home</a>
+        <% if(user) {%> 
+          <% if(user.role=="admin") {%> 
+        <div class="navbar-nav">          
+          <a class="nav-link" href="/adminhome">Home</a>
           <a class="nav-link" href="/addmovie">Add Movie</a>
-         
+          <a class="nav-link" href="/accountinfo">My Account</a> 
         </div>
-        <div class="navbar-nav ms-auto">
-          
+        <% } %> 
+        <% } %> 
+        <div class="navbar-nav ms-auto">     
+          <% if(user) {%>            
+            <a class="nav-link" href="/logout">Logout</a>           
+        <% } else { %> 
           <a class="nav-link" href="/login">Login</a>
-          <a class="nav-link" href="/register">Register</a>
-          
-          
+          <a class="nav-link" href="/register">Register</a> 
+           <% } %> 
           
         </div>
       </div>

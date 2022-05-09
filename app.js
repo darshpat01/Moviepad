@@ -17,6 +17,7 @@ const MongoStore = require("connect-mongo");
 const catchAsync = require("./utils/catchAsync");
 // const ExpressError = require('./utils/ExpressError')
 const User = require("./models/user");
+const { not } = require("ip");
 
 app.use(
   cors({
@@ -78,60 +79,51 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email",
-    },
-    User.authenticate()
-  )
-);
+// passport.use(
+//   new LocalStrategy(
+//     {
+//       usernameField: "email",
+//     },
+//     User.authenticate()
+//   )
+// );
 
-//homepage
-app.get("/", async (req, res) => {
-  const movies = await Movie.find({});
-  res.render("home", { movies });
-});
-
-app.post("/", async (req, res) => {
-  try {
-    const movie = new Movie(req.body.movie);
-    await movie.save();
-    console.log(movie);
-    res.redirect("/");
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-// addmovie
-app.get("/addmovie", (req, res) => {
-  res.render("movieform");
-});
+// app.use((req, res, next) => {
+//   res.locals.currentUser = req.user;
+//   res.locals.error = console.log("error");
+//   next();
+// });
+passport.use(User.createStrategy());
+/*
+-------------------------------------------------------
+                        ROUTES
+-------------------------------------------------------
+*/
 
 //login route
 app.get("/login", (req, res) => {
-  res.render("login");
-});
-
-app.post("/login", async (req, res) => {
-  const redirectUrl = req.session.returnTo || "/";
-  console.log("successfully logged in");
-  console.log(redirectUrl);
-  delete req.session.returnTo;
-  res.redirect(redirectUrl);
+  const user = req.user;
+  res.render("login", { user });
 });
 
 // register route
 app.get("/register", (req, res) => {
-  res.render("register");
+  const user = req.user;
+  res.render("register", { user });
 });
 
+app.get("/logout", (req, res) => {
+  req.logout();
+  console.log("successfully logged out");
+  res.redirect("/");
+});
+
+// post route to register
 app.post("/register", async (req, res) => {
   try {
     console.log(req.body);
@@ -148,6 +140,45 @@ app.post("/register", async (req, res) => {
   } catch (e) {
     console.log(e);
     res.redirect("error");
+  }
+});
+
+// post route to login
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/error",
+  }),
+  async (req, res) => {
+    // const redirectUrl = req.session.returnTo || "/";
+    console.log("successfully logged in");
+    // console.log(redirectUrl);
+    // delete req.session.returnTo;
+    res.redirect("/");
+  }
+);
+
+/*
+-------------------------------------------------------
+                    MEMBER ROUTES
+-------------------------------------------------------
+*/
+
+//homepage
+app.get("/", async (req, res) => {
+  const movies = await Movie.find({});
+  const user = req.user;
+  res.render("home", { movies, user });
+});
+
+app.post("/", async (req, res) => {
+  try {
+    const movie = new Movie(req.body.movie);
+    await movie.save();
+    console.log(movie);
+    res.redirect("/");
+  } catch (e) {
+    console.log(e);
   }
 });
 
@@ -170,10 +201,32 @@ app.get("/booknow/:id", isLoggedIn, async (req, res) => {
   }
 });
 
-//admin routes
+/*
+-------------------------------------------------------
+                    ADMIN ROUTES
+-------------------------------------------------------
+*/
 
-app.get("/admindashboard", isLoggedIn, isAdmin, async (req, res) => {
-  res.render("admin");
+// admin homepage
+app.get("/adminhome", isLoggedIn, isAdmin, async (req, res) => {
+  const user = req.user;
+  res.render("adminpages/adminhome", { user });
+});
+
+// addmovie
+app.get("/addmovie", isLoggedIn, isAdmin, (req, res) => {
+  if (res.user != null) {
+    const user = req.user;
+  }
+  res.render("adminpages/movieform", { user });
+});
+
+//my account
+app.get("/accountinfo", isLoggedIn, isAdmin, (req, res) => {
+  if (res.user != null) {
+    const user = req.user;
+  }
+  res.render("adminpages/adminacc", { user });
 });
 
 app.get("/movie/:id", async (req, res) => {
