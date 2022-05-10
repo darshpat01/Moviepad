@@ -1,3 +1,7 @@
-.movie-input1 {
+.movie-input1 {  
   width: 50%;
+}
+
+.movie-inputs{
+  display: block;
 }

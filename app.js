@@ -117,9 +117,9 @@ app.get("/register", (req, res) => {
   res.render("register", { user });
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", async (req, res) => {
   req.logout();
-  console.log("successfully logged out");
+  console.log(req);
   res.redirect("/");
 });
 
@@ -150,11 +150,10 @@ app.post(
     failureRedirect: "/error",
   }),
   async (req, res) => {
-    // const redirectUrl = req.session.returnTo || "/";
+    const redirectUrl = req.session.returnTo || "/";
     console.log("successfully logged in");
-    // console.log(redirectUrl);
-    // delete req.session.returnTo;
-    res.redirect("/");
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
   }
 );
 
@@ -168,6 +167,7 @@ app.post(
 app.get("/", async (req, res) => {
   const movies = await Movie.find({});
   const user = req.user;
+  console.log(user);
   res.render("home", { movies, user });
 });
 
@@ -184,6 +184,7 @@ app.post("/", async (req, res) => {
 
 app.get("/booknow/:id", isLoggedIn, async (req, res) => {
   try {
+    const user = req.user;
     const movie = await Movie.findById(req.params.id);
     if (!movie) {
       console.log("Movie doesnt exist");
@@ -195,10 +196,20 @@ app.get("/booknow/:id", isLoggedIn, async (req, res) => {
       (movierem) => movierem.name != movie.name
     );
     console.log(moviesrem);
-    res.render("booknow", { movie, movies: moviesrem });
+    res.render("booknow", { movie, movies: moviesrem, user });
   } catch (e) {
     console.log(e);
   }
+});
+
+app.get("/movie/:id", async (req, res) => {
+  const movie = await Movie.findById(req.params.id);
+  if (!movie) {
+    console.log("Movie doesnt exist");
+    return res.redirect("/");
+  }
+  const user = req.user;
+  res.render("movieinfo", { movie, user });
 });
 
 /*
@@ -215,27 +226,16 @@ app.get("/adminhome", isLoggedIn, isAdmin, async (req, res) => {
 
 // addmovie
 app.get("/addmovie", isLoggedIn, isAdmin, (req, res) => {
-  if (res.user != null) {
-    const user = req.user;
-  }
+  const user = req.user;
+
   res.render("adminpages/movieform", { user });
 });
 
 //my account
 app.get("/accountinfo", isLoggedIn, isAdmin, (req, res) => {
-  if (res.user != null) {
-    const user = req.user;
-  }
-  res.render("adminpages/adminacc", { user });
-});
+  const user = req.user;
 
-app.get("/movie/:id", async (req, res) => {
-  const movie = await Movie.findById(req.params.id);
-  if (!movie) {
-    console.log("Movie doesnt exist");
-    return res.redirect("/");
-  }
-  res.render("movieinfo", { movie });
+  res.render("adminpages/adminacc", { user });
 });
 
 const port = process.env.PORT || 3000;

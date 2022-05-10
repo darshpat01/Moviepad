@@ -1,26 +1,23 @@
 <% layout('layouts/boilerplate') %>
-<div class="container">
-  <h3>Book Now</h3>
-  <hr>
-  <div class="mb-3">
-    <label for="certificate" class="form-label">Select Movie</label>
-    <select
-      id="name"
-      name="movie[name]"
-      class="form-select movie-input1"
-      aria-label="Default select example"
-    >
-      <option selected value="<%= movie.name %>"><%= movie.name %></option>
-<% for (moviename of movies) {%> 
-      <option value="<%= moviename.name %> "><%= moviename.name %></option>
-      <% } %> 
-    </select>
-  </div>
-  <form action="/booknow" method="post">
+  <div class="container">
+    <h3>Book Now</h3>
+    <hr>
+    <form action="/booknow" method="post"></form>
+    <div class="mb-3">
+      <label for="certificate" class="form-label">Movie: <%= movie.name %> </label>
+    </div>
+
     <label for="start">Select date:</label>
-    <input type="date" id="start" name="trip-start"
-           value="2018-07-22"
-           min="2018-01-01" max="2018-12-31">
-  <button class="btn btn-success">Book</button>
-</form>
-</div>
+    <input class="movie-inputs" type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01"
+      max="2018-12-31">
+    <label for="time">Select Time: </label>
+    <select id="time" name="booking[time]" class="form-select movie-input1" aria-label="Default select example">
+      <% for (i=0; i<6; i++) { %>
+        <option value="<%= movie.time[i] %>">
+          <%= movie.time[i] %>
+        </option>
+        <% } %>
+    </select>
+    <button class="btn btn-success" type="submit">Book</button>
+    </form>
+  </div>

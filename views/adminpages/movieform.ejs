@@ -1,72 +1,61 @@
 <% layout('layouts/boilerplate') %>
-<link rel="stylesheet" href="/css/movieform.css">
-    <div class="container">
-      <h2>Enter movie details</h2>
-      <form action="/" method="post">
-        <div class="mb-3">
-          <label for="name" class="form-label">Movie name</label>
-          <input id="name" name="movie[name]" type="text" class="form-control movie-input1"/>
-        </div>
-        <div class="mb-3">
-          <label for="certificate" class="form-label">Movie certificate</label>
-          <select
-            id="certificate"
-            name="movie[certificate]"
-            class="form-select movie-input1"
-            aria-label="Default select example"
-          >
-            <option selected value="U">U</option>
-            <option value="U/A">U/A</option>
-            <option value="A">A</option>
-            <option value="A">S</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="language" class="form-label">Movie language</label>
-          <select
-            id="language"
-            name="movie[language]"
-            class="form-select movie-input1"
-            aria-label="Default select example"
-          >
-            <option selected value="English">English</option>
-            <option value="Hindi">Hindi</option>
-            <option value="Bahasha">Bahasha</option>            
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="type" class="form-label">Movie type</label>
-          <select
-          id="type"
-          name="movie[type]"
-            class="form-select movie-input1"
-            aria-label="Default select example"
-          >
-            <option selected value="Comedy">Comedy</option>
-            <option value="Thriller">Thriller</option>
-            <option value="Romance">Romance</option>
-            <option value="Action">Action</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="duration" class="form-label">Duration</label>
-          <input id="duration" name="movie[duration]" type="text" class="form-control movie-input1"  />
-        </div>
-        <div class="mb-3">
-          <label for="director" class="form-label">Director</label>
-          <input id="director" name="movie[director]" type="text" class="form-control movie-input1" />
-        </div>
-        <div class="mb-3">
-          <label for="casting" class="form-label">Castings</label>
-          <input id="casting" name="movie[casting]" type="text" class="form-control movie-input1" />
-        </div>
-        <div class="mb-3">
-          <label for="releaseDate" class="form-label">Release Date</label>
-          <input id="releaseDate" name="movie[releaseDate]" type="text" class="form-control movie-input1" />
-        </div>
-        <button class="btn btn-success">Submit</button>
-      </form>
-     
-    </div>
+  <link rel="stylesheet" href="/css/movieform.css">
+  <div class="container">
+    <h2>Enter movie details</h2>
+    <form action="/" method="post">
+      <div class="mb-3">
+        <label for="name" class="form-label">Movie name</label>
+        <input id="name" name="movie[name]" type="text" class="form-control movie-input1" />
+      </div>
+      <div class="mb-3">
+        <label for="certificate" class="form-label">Movie certificate</label>
+        <select id="certificate" name="movie[certificate]" class="form-select movie-input1"
+          aria-label="Default select example">
+          <option selected value="U">U</option>
+          <option value="U/A">U/A</option>
+          <option value="A">A</option>
+          <option value="A">S</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="language" class="form-label">Movie language</label>
+        <select id="language" name="movie[language]" class="form-select movie-input1"
+          aria-label="Default select example">
+          <option selected value="English">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Bahasha">Bahasha</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="type" class="form-label">Movie type</label>
+        <select id="type" name="movie[type]" class="form-select movie-input1" aria-label="Default select example">
+          <option selected value="Comedy">Comedy</option>
+          <option value="Thriller">Thriller</option>
+          <option value="Romance">Romance</option>
+          <option value="Action">Action</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Duration</label>
+        <input id="duration" name="movie[duration]" type="text" class="form-control movie-input1" />
+      </div>
+      <div class="mb-3">
+        <label for="director" class="form-label">Director</label>
+        <input id="director" name="movie[director]" type="text" class="form-control movie-input1" />
+      </div>
+      <div class="mb-3">
+        <label for="casting" class="form-label">Castings</label>
+        <input id="casting" name="movie[casting]" type="text" class="form-control movie-input1" />
+      </div>
+      <div class="mb-3">
+        <label for="releaseDate" class="form-label">Release Date</label>
+        <input id="releaseDate" name="movie[releaseDate]" type="text" class="form-control movie-input1" />
+      </div>
+      <!-- <div class="mb-3">
+        <label for="releaseDate" class="form-label">Timings</label>
+        <input id="releaseDate" name="movie[releaseDate]" type="text" class="form-control movie-input1" />
+      </div> -->
+      <button class="btn btn-success">Submit</button>
+    </form>
 
-    
+  </div>
