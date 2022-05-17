@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<div class="movieformmaindiv">
   <link rel="stylesheet" href="/css/movieform.css">
   <div class="container">
     <h3 class="movieform-heading-main">Enter movie details</h3>
@@ -55,7 +56,16 @@
         <label for="releaseDate" class="form-label">Timings</label>
         <input id="releaseDate" name="movie[releaseDate]" type="text" class="form-control movie-input1" />
       </div> -->
-      <button class="btn btn-success">Submit</button>
+      <div class="mb-3">
+        <label for="moviephotourl" class="form-label">Movie Photo url</label>
+        <input id="moviephotourl" name="movie[photoURL]" type="text" class="form-control movie-input1" />
+      </div>
+      <div class="mb-3">
+        <label for="movietrailer" class="form-label">Movie Trailer url</label>
+        <input id="movietrailer" name="movie[trailerURL]" type="text" class="form-control movie-input1" />
+      </div>
+      <button class="btn btn-success">Add Movie</button>
     </form>
 
   </div>
+</div>

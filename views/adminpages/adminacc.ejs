@@ -1,5 +1,12 @@
 <% layout('layouts/boilerplate') %>
-<h1>Account Details</h1>
-<h3>Name: <%= user.username %> </h3>
-<h3>Email: <%= user.email %> </h3>
-<h3>Role: <%= user.role %> </h3>
+    <div class="container myacc-div">
+        <h3 class="account-heading">Account Details</h3>
+        <div class="account-div">
+        <p>Name: <%= user.username %>
+        </p>
+        <p>Email: <%= user.email %>
+        </p>
+        <p>Role: <%= user.role %>
+        </p>
+    </div>
+    </div>

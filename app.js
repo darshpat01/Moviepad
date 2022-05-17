@@ -207,8 +207,7 @@ app.get("/movie/:id", async (req, res) => {
   const movie = await Movie.findById(req.params.id);
   if (!movie) {
     console.log("Movie doesnt exist");
-    return res.redirect("/");
-  }
+    return res.redirect("/");  }
   const user = req.user;
   res.render("movieinfo", { movie, user });
 });

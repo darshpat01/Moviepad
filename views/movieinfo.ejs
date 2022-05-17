@@ -3,7 +3,7 @@
     <h3 class="movieinfo-heading">Movie Info</h3>
     <div class="movieinfo-div">     
       <div class="movieinfo-trailer">
-        <iframe width="700" height="500" src="https://www.youtube.com/embed/RZl6pLG4aaQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="700" height="500" src="<%= movie.trailerURL %> " title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       
       <ul class="movieinfo-list">
@@ -14,7 +14,7 @@
         <li>Duration: <%= movie.duration %></li>
         <li>Director: <%= movie.director %></li>
         <li>Casting: <%= movie.casting %></li>
-        <li>Release Date: <%= movie.releasedate %></li>
+        <li>Release Date: <%= movie.releaseDate %></li>
 
       </ul>
     </div>  
