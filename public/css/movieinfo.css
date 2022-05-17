@@ -1,0 +1,29 @@
+.movieinfo-list{
+    list-style: none;
+    padding-left: 1em;
+}
+
+.movieinfo-div{    
+    font-size: 1.2em;
+    /* box-shadow: inset 0 0 0 3000px rgba(150, 150, 150, 0.192); */
+    color: white;
+    text-transform: capitalize;
+    line-height: 1.6;
+    /* background: rgba(255, 78, 78, 0.7); */
+    width: auto;
+}
+
+.movieinfo-heading{
+    padding-top: 1.5em;
+    color: white;
+
+}
+
+.movieinfo-body{
+    margin-bottom: 50px;
+}
+
+.movieinfo-trailer{
+    display: flex;
+    justify-content: center;
+}

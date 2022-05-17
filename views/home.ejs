@@ -1,26 +1,28 @@
 <% layout('layouts/boilerplate') %>
-
-<div class="container">
-  <h3>Now showing</h3>
-  <hr>
-  <div class="row">
-    <% for(movie of movies) {%>   
-      <div class="col-sm">
+<div class="homepage-bg">
+  <div class="container ">
+    <h3 class="homepage-heading">Now showing</h3>
+    <hr>
+    <div class="row">
+      <% for(movie of movies) {%>   
         
-        <div class="card" style="width: 18rem">
-          <a href="/movie/<%=movie._id %>">
-          <img
-            src="https://movieposters2.com/images/1394504-b.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-        </a>
-          <div class="card-body">
-            <h5 class="card-title"><%= movie.name %></h5>
+          
+          <div class="card homepage-cards">
+            <a href="/movie/<%=movie._id %>">
+            <img
+              src="https://movieposters2.com/images/1394504-b.jpg"
+              class="card-img-top"
+              alt="..."
+            />
+          </a>
+            <div class="card-body homepage-card-body">
+              <h5 class="card-title"><%= movie.name %></h5>
+            </div>
           </div>
-        </div>
-      </div>
-    
-    <% } %>
+       
+      
+      <% } %>
+    </div>
   </div>
 </div>
+

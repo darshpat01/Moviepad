@@ -1,6 +1,22 @@
 <% layout('layouts/boilerplate') %>
-<div class="container">
-    <h1>Movie Info</h1>
-  <p>Movie Name : <%= movie.name %> </p>
+<div class="container movieinfo-body">
+    <h3 class="movieinfo-heading">Movie Info</h3>
+    <div class="movieinfo-div">     
+      <div class="movieinfo-trailer">
+        <iframe width="700" height="500" src="https://www.youtube.com/embed/RZl6pLG4aaQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      
+      <ul class="movieinfo-list">
+        <li>Title : <%= movie.name %> </li>
+        <li>Certificate : <%= movie.certificate %></li>
+        <li>Language: <%= movie.language %></li>
+        <li>Type: <%= movie.type %></li>
+        <li>Duration: <%= movie.duration %></li>
+        <li>Director: <%= movie.director %></li>
+        <li>Casting: <%= movie.casting %></li>
+        <li>Release Date: <%= movie.releasedate %></li>
+
+      </ul>
+    </div>  
   <a class="btn btn-primary" href="/booknow/<%= movie._id %> " role="button">Book Now</a>
 </div>

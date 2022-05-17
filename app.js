@@ -18,6 +18,7 @@ const catchAsync = require("./utils/catchAsync");
 // const ExpressError = require('./utils/ExpressError')
 const User = require("./models/user");
 const { not } = require("ip");
+const Booking = require('./models/booking');
 
 app.use(
   cors({
@@ -211,6 +212,60 @@ app.get("/movie/:id", async (req, res) => {
   const user = req.user;
   res.render("movieinfo", { movie, user });
 });
+
+app.post("/bookshow", isLoggedIn, isMember, async (req, res) => {
+  try {
+    console.log('movie request'); 
+  const movie = await Movie.findById(req.body.booking.movie);     
+  const user = req.user;
+  const noofseats = parseInt(req.body.booking.noofseats);
+  const totalamount = noofseats*300; 
+  const time = req.body.booking.time; 
+  const date = req.body.booking.date; 
+  
+  const newbooking = new Booking({
+    user:user, 
+    movie:movie,
+    totalamount:totalamount,
+    bookingdate:date,
+    bookingtime:time,
+    noofseats:noofseats,
+  });
+  await newbooking.save(); 
+  console.log("booking saved");
+  res.redirect(`/payment/${newbooking._id}`); 
+    
+  } catch (error) {
+    console.log(error,'ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  }  
+ 
+});
+/*
+-------------------------------------------------------
+                    PAYMENT ROUTES
+-------------------------------------------------------
+*/
+
+app.get("/payment/:id", async(req, res)=>{
+  const id = req.params.id; 
+  const user = req.user; 
+  const booking = await Booking.findById(id); 
+  res.render('payment',{booking, user});
+}); 
+
+app.post("/payment/:id", async(req,res)=>{
+  const id = req.params.id; 
+  const user = req.user; 
+  const booking = await Booking.findById(id); 
+  res.redirect(`/receipt/${booking._id}`); 
+}); 
+
+app.get('/receipt/:id', async (req,res)=>{
+  const id = req.params.id; 
+  const user = req.user; 
+  const booking = await Booking.findById(id); 
+  res.render('receipt',{booking, user});
+}); 
 
 /*
 -------------------------------------------------------

@@ -1,23 +1,29 @@
 <% layout('layouts/boilerplate') %>
   <div class="container">
-    <h3>Book Now</h3>
+    <h3 class="movieinfo-heading">Book Now</h3>
     <hr>
-    <form action="/booknow" method="post"></form>
-    <div class="mb-3">
-      <label for="certificate" class="form-label">Movie: <%= movie.name %> </label>
-    </div>
-
-    <label for="start">Select date:</label>
-    <input class="movie-inputs" type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01"
-      max="2018-12-31">
-    <label for="time">Select Time: </label>
-    <select id="time" name="booking[time]" class="form-select movie-input1" aria-label="Default select example">
-      <% for (i=0; i<6; i++) { %>
-        <option value="<%= movie.time[i] %>">
-          <%= movie.time[i] %>
-        </option>
-        <% } %>
-    </select>
-    <button class="btn btn-success" type="submit">Book</button>
+    <form action="/bookshow" method="post">
+      <div class="booknow-field">
+        <div class="mb-3">
+          <label class="booknow-labels" for="certificate" class="form-label booknow-fields" name="moviename">Movie: <%= movie.name %> </label>
+          <input type="hidden" name="booking[movie]" value="<%= movie._id %>">
+        </div>
+        <label class="booknow-labels" for="start">Select date:</label>
+        <input class="movie-inputs booknow-fields" type="date" id="start" name="booking[date]" value="2018-07-22" min="2018-01-01"
+          max="2018-12-31">
+        <label class="booknow-labels" for="time">Select Time: </label>
+        <select id="time" name="booking[time]" class="form-select movie-input1 booknow-fields" aria-label="Default select example">
+          <% for (i=0; i<6; i++) { %>
+            <option value="<%= movie.time[i] %>">
+              <%= movie.time[i] %>
+            </option>
+            <% } %>
+        </select>
+        <label class="booknow-labels" for="noofseats">Select no. of seats: </label>
+        <input class="booknow-fields" type="number" name="booking[noofseats]" id="noofseats">
+      </div>
+      
+      <button class="btn btn-success bookbtn" type="submit">Book</button>
     </form>
   </div>
+  

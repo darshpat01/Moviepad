@@ -1,0 +1,20 @@
+.booknow-field{
+    color: white;
+    font-size: 1.2em;
+   
+}
+
+.booknow-fields{
+   margin-bottom: 1em;
+   display: block;
+   width: 30%;
+}
+
+.booknow-labels{
+    padding-bottom: 1em;
+}
+
+.bookbtn{
+    background-color: rgb(255, 119, 119);
+
+}

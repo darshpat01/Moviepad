@@ -1,2 +1,23 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Payment Page</h1>
+<div class="container payment-maindiv">
+    <h3 class="payment-heading">PAYMENT</h3>
+
+<p></p>
+<form action="/payment/<%= booking._id %>"  method="post">
+<label class="payment-labels" for="cardno">Card Number</label>
+<input class="payment-inputs" type="number" id="cardno" required>
+<label class="payment-labels" for="cardname">Name on Card</label>
+<input class="payment-inputs" type="text" id="cardname" required>
+<label class="payment-labels" for="cardtype">Card Type</label>
+<select class="payment-inputs" name="cardtype" id="cardtype">
+    <option selected value="debit">Debit</option>
+    <option value="credit">Credit</option>
+</select>
+<label class="payment-labels" for="CVV">CVV Number</label>
+<input class="payment-inputs" type="number" id="CVV" required>
+<label class="payment-labels" for="totalamount">Total Amount</label>
+<p class="payment-inputs payment-totalamt"><%= booking.totalamount %> Rs. </p>
+<button class="paymentbtn btn btn-success" type="submit">Make Payment</button>
+</form>
+</div>
+

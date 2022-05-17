@@ -1,0 +1,29 @@
+.payment-maindiv{
+    color: white;
+}
+
+.payment-heading
+{
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.payment-labels{
+    margin-bottom: 1em;
+}
+
+.payment-inputs{
+    display: block;
+    margin-bottom: 1em;
+    width: 30%;
+}
+
+.paymentbtn{
+    background-color: rgb(255, 119, 119);
+}
+
+.payment-totalamt{
+    font-size: 1.4em;
+    font-weight: 500;
+    background-color: rgb(250, 109, 109);
+}
