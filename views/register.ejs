@@ -1,10 +1,10 @@
 <% layout('layouts/boilerplate') %>
 <div class="container">
-  <h3>Register</h3>
+  <h3 class="register-heading">Register</h3>
   <hr />
   <form action="/register" method="post">
     <div class="mb-3 row">
-      <label for="staticEmail" class="col-sm-2 col-form-label">Role:</label>
+      <label for="staticEmail" class="col-sm-2 register-labels">Role:</label>
       <div class="col-sm-10">
         <!-- <fieldset>
           <input type="radio" id="admin" name="admin" value="admin" checked/>
@@ -13,49 +13,49 @@
           <label for="member">Member</label><br />
         </fieldset> -->
                 <div>
-          <input type="radio" id="admin"
+          <input  type="radio" id="admin"
            name="role" value="admin" checked>
-          <label for="admin">Admin</label>
+          <label class="register-labels" for="admin">Admin</label>
       
-          <input type="radio" id="member"
+          <input  type="radio" id="member"
            name="role" value="member">
-          <label for="member">Member</label>     
+          <label class="register-labels" for="member">Member</label>     
         </div>        
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+      <label  for="staticEmail" class="col-sm-2 register-labels">Email</label>
       <div class="col-sm-10">
         <input
           id="email"
           type="email"
           name="email"
-          class="form-control movie-input1"
+          class="form-control movie-input1 register-inputs"
           required
         />
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="username" class="col-sm-2 col-form-label">Username</label>
+      <label for="username" class="col-sm-2 register-labels">Username</label>
       <div class="col-sm-10">
         <input
           id="username"
           type="username"
           name="username"
-          class="form-control movie-input1"
+          class="form-control movie-input1 register-inputs"
           required
         />
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="inputPassword" class="col-sm-2 col-form-label"
+      <label for="inputPassword" class="col-sm-2 register-labels"
         >Password</label
       >
       <div class="col-sm-10">
         <input
           type="password"
           name="password"
-          class="form-control"
+          class="form-control register-inputs"
           id="inputPassword"
           required
         />

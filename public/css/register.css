@@ -1,0 +1,13 @@
+.register-heading{
+    color: white;
+    padding-top: 20px;
+}
+
+.register-labels{
+    color: white;
+}
+
+.register-inputs{
+    width: 45%;
+    margin-bottom: 1em;
+}

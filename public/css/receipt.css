@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;500;700&family=Poppins:wght@100;300;400;500;700&display=swap');
+.receipt-div{
+    display: flex;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+
+    /* padding-top: 1em; */
+
+}
+
+.receipt-heading-1{
+    background-color: greenyellow;
+    margin-top: 1em;
+    color: black;
+    text-align: center;
+    /* width: 50%; */
+}
+
+.receipt-heading-2{
+    color: white;
+}
+
+.ticket-card{
+    display: flex;
+    justify-content: center;
+    margin-top: 5em;
+    font-family: 'Oswald', sans-serif;
+}
+
+.cardp1{
+    background-color: aliceblue;
+    border-radius: 10px;
+    height: 300px;
+    width: 700px;
+    background-image: url('/images/receiptbg.jpg');
+    background-size: cover;    
+    /* padding-left: 20px;
+    padding-top: 45px; */
+    padding: 20px;
+    
+    
+}
+
+.cardp2{
+    
+    background-color: aliceblue;
+    border-radius: 10px;
+    height: 300px;
+    width: 200px;
+    background-color: #d00000;   
+    border-left: 2px dotted white;
+    display: flex;
+    
+}
+
+.receipt-movie-heading{
+    color: white;
+    text-transform:uppercase;
+    
+    
+    font-weight: 500;
+    font-size: 4.2em;
+    margin: 0;
+    
+    
+}
+
+.receipt-movie-headingp2{
+    color: yellow;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+.receipt-info-3{
+    color: white;
+    padding-top: 30px;
+}
+
+.receipt-smallhead-1{
+    color: yellow;
+    letter-spacing: .1em;
+}
+
+.recept-smallinfo{
+    color: white;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding-top: 0.4em;
+}
+
+/* .barcode-div{       
+    display: flex;
+} */
+
+.barcode{
+    padding-top: 10px;
+    width: 30%;
+    height: 250px;
+}
+
+
+
+.receipt-id{
+    color: white;
+}
+
+

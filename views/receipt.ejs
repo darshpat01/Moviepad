@@ -1,2 +1,58 @@
 <% layout('layouts/boilerplate') %>
-<h1>MOVIE BOOKING RECEIPT (YOUR BOOKING WAS SUCCESSFUL)</h1>
+    <div class="container ">
+        <div class="receipt-div">
+            <h3 class="receipt-heading-1">Payment Successful</h3>
+            <h3>Your Ticket: </h3>
+        </div>
+        <div class="ticket-card">
+            <div class="cardp1">
+                <div class="receiptinfo">
+                    <h1 class="receipt-movie-heading">
+                        MOVIEPAD TICKET
+                    </h1>
+                    <h3 class="receipt-movie-headingp2">
+                        <%= movie.name %>
+                    </h3>
+                    <div class="row receipt-info-3">
+                        <div class="col">
+                            <div class="receipt-smallhead-1">TOTAL AMOUNT</div>
+                            <div class="recept-smallinfo">
+                                <%= booking.totalamount %>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="receipt-smallhead-1">SEATS</div>
+                            <div class="recept-smallinfo">
+                                <%= booking.noofseats %>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="receipt-smallhead-1">TIME</div>
+                            <div class="recept-smallinfo">
+                                <%= booking.bookingtime %>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="receipt-smallhead-1">THEATER</div>
+                            <div class="recept-smallinfo">
+                                02
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="receipt-id">
+                        Receipt Id: <%= booking.id %> 
+                    </div>
+                </div>
+                
+            </div>
+           
+            <!-- <div class="cardp2">
+                <div class="receipt-id">
+                   
+                </div> 
+                                         
+            </div> -->
+        </div>
+
+    </div>

@@ -1,0 +1,4 @@
+.custom-nav-mpd{
+    background: rgba(255, 78, 78, 0.7)!important;
+    backdrop-filter: saturate(180%) blur(10px);
+}

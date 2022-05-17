@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark custom-nav-mpd">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Moviepad</a>
       <button
@@ -16,7 +16,7 @@
         <% if(user) {%> 
           <% if(user.role=="admin") {%> 
         <div class="navbar-nav">          
-          <a class="nav-link" href="/adminhome">Home</a>
+          <!-- <a class="nav-link" href="/adminhome">Home</a> -->
           <a class="nav-link" href="/addmovie">Add Movie</a>
           <a class="nav-link" href="/accountinfo">My Account</a> 
         </div>
